@@ -3,16 +3,26 @@
 import { useState, useEffect } from "react"
 import { Card, CardHeader, CardTitle, CardContent, CardAction, CardDescription } from "./ui/card"
 import { Button } from "./ui/button"
-import { X, Circle, BriefcaseBusiness, RotateCcw } from "lucide-react"
+import { X, Circle, BriefcaseBusiness } from "lucide-react"
 import Link from "next/link"
 
 type Player = "Player X" | "Player O" | null;
+
+const winCon = [
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6],
+];
 
 export default function Game() {
 
 	const [tiles, setTiles] = useState<Player[]>(Array(9).fill(null));
 	const [turn, setTurn] = useState<"Player X" | "Player O">("Player X");
-	const winCon = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 	const [winner, setWinner] = useState<Player | "Draw">(null);
 	const [btnDisabled, setBtnDisabled] = useState(Array(9).fill(false));
 	const [scores, setScores] = useState({ X: 0, O: 0, Draw: 0 });
@@ -45,7 +55,6 @@ export default function Game() {
 
 
 	useEffect(() => {
-		console.log(tiles, turn);
 		for (const [a, b, c] of winCon) {
 			if (tiles[a] && tiles[a] === tiles[b] && tiles[a] === tiles[c]) {
 				setWinner(tiles[a]);
@@ -108,7 +117,7 @@ export default function Game() {
 					</div>
 					<Card className="bg-[#D2B48C] border-amber-950/10">
 						<CardContent className="gap-2 flex flex-col">
-							<h1 className="font-baloo text-lg font-semibold">{turn}'s' Turn</h1>
+							<h1 className="font-baloo text-lg font-semibold">{turn}&apos;s Turn</h1>
 							<CardAction className="flex justify-evenly w-full gap-3">
 								<Button
 									variant="ghost"
